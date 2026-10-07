@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Dark Mode</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      width: 300px;
+      padding: 16px;
+      background: #18191c;
+      color: #f1f3f5;
+      font-size: 13px;
+      user-select: none;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #2e3238;
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #3f444e;
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4f46e5;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .site-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #23262e;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .manual-controls {
+      background: #1a1c22;
+      border: 1px solid #2b2e36;
+      border-radius: 8px;
+      margin-bottom: 4px;
+    }
+
+    .manual-controls summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+      border-radius: 8px;
+    }
+
+    .manual-controls summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .manual-controls summary:hover {
+      background: #20232a;
+    }
+
+    .manual-controls summary:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: -2px;
+    }
+
+    .manual-controls-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    .manual-controls-summary {
+      flex: 1;
+      text-align: right;
+      font-size: 10px;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .manual-controls[open] .manual-controls-summary {
+      visibility: hidden;
+    }
+
+    .chevron {
+      color: #94a3b8;
+      flex: none;
+      transition: transform 0.2s ease;
+    }
+
+    .manual-controls[open] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .manual-controls + .manual-controls {
+      margin-top: 8px;
+    }
+
+    .blocked-sites .add-block-row {
+      margin-top: 10px;
+    }
+
+    .manual-controls-body {
+      padding: 4px 10px 10px;
+      border-top: 1px solid #2b2e36;
+    }
+
+    .control-group {
+      margin-bottom: 11px;
+    }
+
+    .control-group:first-child {
+      margin-top: 8px;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      color: #9ca3af;
+      font-size: 11px;
+    }
+
+    input[type=range] {
+      width: 100%;
+      accent-color: #6366f1;
+      height: 4px;
+      background: #374151;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    button {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid #374151;
+      background: #25282f;
+      color: #e5e7eb;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: #323742;
+    }
+
+    .section-divider {
+      margin: 14px 0 10px 0;
+      border-top: 1px solid #2e3238;
+      padding-top: 10px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .add-block-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .add-block-row input {
+      flex: 1;
+      padding: 5px 8px;
+      background: #1f2229;
+      border: 1px solid #374151;
+      border-radius: 5px;
+      color: #f3f4f6;
+      font-size: 11px;
+      outline: none;
+    }
+
+    .add-block-row input:focus {
+      border-color: #6366f1;
+    }
+
+    .add-block-row button {
+      flex: initial;
+      padding: 5px 10px;
+      background: #4f46e5;
+      border-color: #4338ca;
+      font-weight: 500;
+    }
+
+    .add-block-row button:hover {
+      background: #4338ca;
+    }
+
+    .blacklist-count {
+      font-size: 10px;
+      color: #94a3b8;
+      background: #23262e;
+      border: 1px solid #2b2e36;
+      border-radius: 10px;
+      padding: 1px 8px;
+    }
+
+    .search-row {
+      position: relative;
+      margin-bottom: 6px;
+    }
+
+    .search-row input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px 26px 5px 26px;
+      background: #1a1c22;
+      border: 1px solid #2b2e36;
+      border-radius: 5px;
+      color: #f3f4f6;
+      font-size: 11px;
+      outline: none;
+    }
+
+    .search-row input:focus {
+      border-color: #6366f1;
+    }
+
+    .search-row input::-webkit-search-cancel-button {
+      display: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    .btn-clear-search {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent !important;
+      border: none !important;
+      color: #64748b !important;
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 6px !important;
+      flex: initial !important;
+    }
+
+    .btn-clear-search:hover {
+      color: #cbd5e1 !important;
+    }
+
+    .blacklist-item mark {
+      background: rgba(99, 102, 241, 0.35);
+      color: #fff;
+      border-radius: 2px;
+    }
+
+    .blacklist-list {
+      max-height: 220px;
+      overflow-y: auto;
+      background: #1a1c22;
+      border-radius: 6px;
+      padding: 4px;
+      border: 1px solid #2b2e36;
+    }
+
+    .blacklist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+      background: #23262e;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 11px;
+    }
+
+    .blacklist-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .blacklist-item span {
+      color: #e2e8f0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+
+    .btn-remove-site {
+      background: transparent !important;
+      border: none !important;
+      color: #ef4444 !important;
+      cursor: pointer;
+      font-size: 12px;
+      padding: 2px 4px !important;
+      flex: initial !important;
+    }
+
+    .btn-remove-site:hover {
+      color: #f87171 !important;
+    }
+
+    .empty-blacklist {
+      text-align: center;
+      color: #64748b;
+      font-size: 11px;
+      padding: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">
+      <span>🌙</span> Smart Dark Mode
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-enabled" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="site-bar" style="flex-direction: column; align-items: stretch; gap: 8px; background: #20232a; padding: 10px; border-radius: 8px; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.08);">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="color: #94a3b8; font-size: 11px;">Site atual:</span>
+      <strong id="site-hostname" style="color: #60a5fa; font-size: 12px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">...</strong>
+    </div>
+    <button id="btn-toggle-site" style="width: 100%; padding: 7px 10px; font-size: 12px; font-weight: 500; border-radius: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.2s ease;">
+      <span id="btn-toggle-site-icon">🚫</span>
+      <span id="btn-toggle-site-text">Não aplicar neste site</span>
+    </button>
+  </div>
+
+  <details class="manual-controls" id="manual-controls" data-store-key="sdm_manual_controls_open">
+    <summary>
+      <span class="manual-controls-title">Ajustes manuais</span>
+      <span class="manual-controls-summary" id="manual-controls-summary"></span>
+      <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="manual-controls-body">
+  <div class="control-group">
+    <div class="control-header">
+      <span>Contraste</span>
+      <span id="val-contrast">100%</span>
+    </div>
+    <input type="range" id="slider-contrast" min="70" max="130" value="100">
+  </div>
+
+  <div class="control-group">
+    <div class="control-header">
+      <span>Brilho</span>
+      <span id="val-brightness">100%</span>
+    </div>
+    <input type="range" id="slider-brightness" min="60" max="110" value="100">
+  </div>
+
+  <div class="control-group">
+    <div class="control-header">
+      <span>Tom Séphia (Descanso visual)</span>
+      <span id="val-sepia">0%</span>
+    </div>
+    <input type="range" id="slider-sepia" min="0" max="40" value="0">
+  </div>
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0; margin-bottom: 6px;">
+    <div>
+      <span style="font-size: 12px; color: #cbd5e1; font-weight: 500;">Desfoque no carregamento</span>
+      <div style="font-size: 10px; color: #94a3b8;">Suaviza a transição inicial (blur)</div>
+    </div>
+    <label class="switch" style="width: 36px; height: 20px;">
+      <input type="checkbox" id="toggle-blur" checked>
+      <span class="slider" style="border-radius: 20px;"></span>
+    </label>
+  </div>
+
+  <div class="btn-row">
+    <button id="btn-reset">Restaurar Padrão</button>
+  </div>
+    </div>
+  </details>
+
+  <details class="manual-controls blocked-sites" id="blocked-sites" data-store-key="sdm_blocked_sites_open">
+    <summary>
+      <span class="manual-controls-title">🚫 Sites ignorados</span>
+      <span class="manual-controls-summary"></span>
+      <span class="blacklist-count" id="blacklist-count">0</span>
+      <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="manual-controls-body">
+      <div class="add-block-row">
+        <input type="text" id="input-new-blocked-site" placeholder="ex: youtube.com">
+        <button id="btn-add-blocked-site">+ Adicionar</button>
+      </div>
+
+      <div class="search-row">
+        <svg class="search-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" id="input-search-blocked" placeholder="Pesquisar sites ignorados..." aria-label="Pesquisar sites ignorados">
+        <button class="btn-clear-search" id="btn-clear-search" title="Limpar pesquisa" hidden>✖</button>
+      </div>
+
+      <div class="blacklist-list" id="blacklist-container">
+        <!-- Injected by popup.js -->
+      </div>
+    </div>
+  </details>
+
+  <script src="popup.js"></script>
+</body>
+</html>

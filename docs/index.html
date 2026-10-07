@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Dark Mode & Reader — O Dark Mode Inteligente para a Web</title>
+  <meta name="description" content="Extensão para Google Chrome (Manifest V3) com motor de contraste adaptativo em tempo real. Preserva imagens, vídeos e mídias, garantindo conformidade WCAG e zero flash de branco.">
+  <meta name="keywords" content="dark mode, chrome extension, manifest v3, modo escuro, leitor noturno, acessibilidade web, contraste wcag">
+  <meta name="author" content="Diego Alves">
+  <meta name="theme-color" content="#0a0b0e">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Smart Dark Mode & Reader — Dark Mode Inteligente">
+  <meta property="og:description" content="Navegação noturna sem agressão visual. Preserva fotos, vídeos e ícones com cores 100% naturais.">
+  <meta property="og:image" content="assets/icon128.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="apple-touch-icon" href="assets/icon128.png">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Light Effects -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- Header / Navigation -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="Smart Dark Mode Página Inicial">
+        <img src="assets/icon.svg" alt="Ícone Smart Dark Mode" class="brand-icon">
+        <span>DarkSite</span>
+        <span class="brand-badge">v1.2.1</span>
+      </a>
+
+      <nav aria-label="Navegação Principal">
+        <ul class="nav-links">
+          <li><a href="#demo" class="nav-link">Demonstração</a></li>
+          <li><a href="#recursos" class="nav-link">Recursos</a></li>
+          <li><a href="#arquitetura" class="nav-link">Arquitetura</a></li>
+          <li><a href="#instalacao" class="nav-link">Instalação</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://github.com/alvesdiego18/darksite" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" id="btn-github-nav">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+        <a href="#instalacao" class="btn btn-primary btn-sm" id="btn-install-nav">
+          <span>Instalar Agora</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="pill-badge">
+        <span class="pill-dot"></span>
+        <span>Google Chrome • Manifest V3 • Zero White Flash</span>
+      </div>
+
+      <h1 class="hero-title">
+        O Dark Mode <span class="gradient-text">inteligente & adaptativo</span> para a web moderna.
+      </h1>
+
+      <p class="hero-description">
+        Sem telas brancas piscando ao trocar de página. Sem inversão destrutiva de fotos e vídeos. Um motor dinâmico e ultraleve que ajusta o contraste de acordo com as diretrizes internacionais WCAG.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#instalacao" class="btn btn-primary btn-lg" id="hero-btn-install">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Adicionar ao Google Chrome</span>
+        </a>
+
+        <a href="#demo" class="btn btn-secondary btn-lg" id="hero-btn-demo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="10 8 16 12 10 16 10 8"></polygon>
+          </svg>
+          <span>Ver Demonstração ao Vivo</span>
+        </a>
+      </div>
+
+      <!-- Quick Specifications Strip -->
+      <div class="quick-specs">
+        <div class="spec-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Tamanho: <strong>&lt; 35 KB</strong></span>
+        </div>
+        <div class="spec-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Privacidade: <strong>100% Local & Offline</strong></span>
+        </div>
+        <div class="spec-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>Latência: <strong>Zero Flash na Pintura</strong></span>
+        </div>
+        <div class="spec-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Mídias: <strong>Cores Reais Preservadas</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Comparison Section -->
+  <section class="comparison-section" id="demo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Demonstração Interativa</span>
+        <h2 class="section-title">Arraste para comparar: Claro vs. Smart Dark Mode</h2>
+        <p class="section-desc">Mova o controle central para experimentar a diferença. Note como textos ganham legibilidade ideal e a imagem lateral mantém suas cores vivas e naturais.</p>
+      </div>
+
+      <!-- Browser Preview Window -->
+      <div class="preview-window">
+        <div class="window-bar">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+
+          <div class="window-search">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span id="preview-address-bar">https://tech-portal.dev/blog/smart-dark-mode</span>
+          </div>
+
+          <div class="window-actions">
+            <span class="badge-mode">Motor WCAG Ativo</span>
+          </div>
+        </div>
+
+        <!-- Split Slider Container -->
+        <div class="split-viewer-wrapper" id="split-wrapper">
+          
+          <!-- Light Layer (Original Webpage) -->
+          <div class="split-layer split-layer-light" id="split-light-layer">
+            <div class="mock-webpage">
+              <div class="mock-nav">
+                <div class="mock-logo">⚡ TechPortal</div>
+                <div class="mock-links">
+                  <span>Artigos</span>
+                  <span>Tutoriais</span>
+                  <span>Sobre</span>
+                </div>
+              </div>
+
+              <div class="mock-article-header">
+                <span class="mock-category" id="mock-cat-light">Engenharia & Design</span>
+                <h3 class="mock-title" id="mock-title-light">Como a Inversão Inteligente Elimina a Fadiga Visual na Web</h3>
+                <div class="mock-meta" id="mock-meta-light">Publicado por Diego Alves • Tempo de leitura: 4 min</div>
+              </div>
+
+              <div class="mock-grid">
+                <div class="mock-main-content">
+                  <p class="mock-body-text" id="mock-p1-light">
+                    Ao navegar pela web durante a madrugada, fundos 100% brancos emitem um brilho agressivo que sobrecarrega a retina. Extensões de inversão comum simplesmente invertem todas as cores em 180°, transformando fotos de pessoas em negativos assustadores e gráficos em tons bizarros.
+                  </p>
+                  <p class="mock-body-text" id="mock-p2-light">
+                    Com o Smart Dark Mode, cada elemento HTML é avaliado dinamicamente. Os tons de fundo são mapeados para uma paleta escura harmônica, enquanto mídias e fotos permanecem completamente intocadas.
+                  </p>
+
+                  <div class="mock-code-box" id="mock-code-light">
+                    // WCAG Relative Luminance Check
+function getLuminance(r, g, b) {
+  const [rs, gs, bs] = [r, g, b].map(c => {
+    c = c / 255;
+    return c &lt;= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+                  </div>
+                </div>
+
+                <div class="mock-sidebar">
+                  <div class="mock-media-card">
+                    <img src="assets/icon128.png" alt="Exemplo de Mídia Preservada" class="mock-photo" style="background: linear-gradient(135deg, #1e293b, #0f172a); padding: 20px; object-fit: contain;">
+                    <div class="mock-photo-caption">
+                      <span>Mídia Preservada</span>
+                      <strong style="color: #10b981;">✓ 100% Original</strong>
+                    </div>
+                  </div>
+
+                  <div class="mock-stats-box">
+                    <div class="stat-row">
+                      <span>Modo:</span>
+                      <strong>Tema Claro (Ofuscante)</strong>
+                    </div>
+                    <div class="stat-row">
+                      <span>Luminância:</span>
+                      <strong>98.4% (Alto impacto)</strong>
+                    </div>
+                    <div class="stat-row">
+                      <span>Cansaço visual:</span>
+                      <strong style="color: #ef4444;">Severo à noite</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dark Layer (Adapted Webpage) -->
+          <div class="split-layer split-layer-dark" id="split-dark-layer">
+            <div class="mock-webpage">
+              <div class="mock-nav">
+                <div class="mock-logo">⚡ TechPortal</div>
+                <div class="mock-links">
+                  <span>Artigos</span>
+                  <span>Tutoriais</span>
+                  <span>Sobre</span>
+                </div>
+              </div>
+
+              <div class="mock-article-header">
+                <span class="mock-category" id="mock-cat-dark">Engenharia & Design</span>
+                <h3 class="mock-title" id="mock-title-dark">Como a Inversão Inteligente Elimina a Fadiga Visual na Web</h3>
+                <div class="mock-meta" id="mock-meta-dark">Publicado por Diego Alves • Tempo de leitura: 4 min</div>
+              </div>
+
+              <div class="mock-grid">
+                <div class="mock-main-content">
+                  <p class="mock-body-text" id="mock-p1-dark">
+                    Ao navegar pela web durante a madrugada, fundos 100% brancos emitem um brilho agressivo que sobrecarrega a retina. Extensões de inversão comum simplesmente invertem todas as cores em 180°, transformando fotos de pessoas em negativos assustadores e gráficos em tons bizarros.
+                  </p>
+                  <p class="mock-body-text" id="mock-p2-dark">
+                    Com o Smart Dark Mode, cada elemento HTML é avaliado dinamicamente. Os tons de fundo são mapeados para uma paleta escura harmônica, enquanto mídias e fotos permanecem completamente intocadas.
+                  </p>
+
+                  <div class="mock-code-box" id="mock-code-dark">
+                    // WCAG Relative Luminance Check
+function getLuminance(r, g, b) {
+  const [rs, gs, bs] = [r, g, b].map(c => {
+    c = c / 255;
+    return c &lt;= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+                  </div>
+                </div>
+
+                <div class="mock-sidebar">
+                  <div class="mock-media-card">
+                    <img src="assets/icon128.png" alt="Exemplo de Mídia Preservada" class="mock-photo" style="background: linear-gradient(135deg, #1e293b, #0f172a); padding: 20px; object-fit: contain;">
+                    <div class="mock-photo-caption">
+                      <span>Mídia Preservada</span>
+                      <strong style="color: #10b981;">✓ 100% Original</strong>
+                    </div>
+                  </div>
+
+                  <div class="mock-stats-box">
+                    <div class="stat-row">
+                      <span>Modo:</span>
+                      <strong style="color: #818cf8;">Smart Dark Mode</strong>
+                    </div>
+                    <div class="stat-row">
+                      <span>Contraste:</span>
+                      <strong style="color: #34d399;">WCAG AAA 7.2:1</strong>
+                    </div>
+                    <div class="stat-row">
+                      <span>Cansaço visual:</span>
+                      <strong style="color: #10b981;">Zero fadiga</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Split Slider Drag Handle -->
+          <div class="split-handle" id="split-handle">
+            <div class="handle-button" aria-label="Arraste para comparar" title="Arraste para comparar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Live Tuning Bar (Mirroring the Extension) -->
+        <div class="demo-tuning-panel">
+          <div class="demo-presets">
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Exemplos:</span>
+            <button class="preset-chip active" data-preset="article">Artigo</button>
+            <button class="preset-chip" data-preset="dashboard">Dashboard</button>
+            <button class="preset-chip" data-preset="docs">Documentação</button>
+          </div>
+
+          <div class="tuning-controls">
+            <div class="tuning-item">
+              <span>Contraste:</span>
+              <input type="range" id="demo-contrast" min="70" max="130" value="100" aria-label="Ajustar contraste">
+              <span class="val-badge" id="demo-val-contrast">100%</span>
+            </div>
+
+            <div class="tuning-item">
+              <span>Brilho:</span>
+              <input type="range" id="demo-brightness" min="60" max="110" value="100" aria-label="Ajustar brilho">
+              <span class="val-badge" id="demo-val-brightness">100%</span>
+            </div>
+
+            <div class="tuning-item">
+              <span>Séphia:</span>
+              <input type="range" id="demo-sepia" min="0" max="40" value="0" aria-label="Ajustar tom sépia">
+              <span class="val-badge" id="demo-val-sepia">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Grid -->
+  <section class="features-section" id="recursos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Engenharia Sob Medida</span>
+        <h2 class="section-title">Por que o DarkSite é diferente de outros temas?</h2>
+        <p class="section-desc">Criado com foco em fidelidade visual, baixo consumo de bateria e respeito total às diretrizes de acessibilidade.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 class="feature-title">Zero Flash de Branco</h3>
+          <p class="feature-text">Injeção no ciclo de vida <code>document_start</code> pelo Service Worker via <code>chrome.scripting.registerContentScripts</code>. A página já nasce escura antes mesmo do navegador renderizar a primeira camada.</p>
+          <span class="feature-badge-mini">#document_start</span>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <h3 class="feature-title">Preservação Real de Mídias</h3>
+          <p class="feature-text">Fotos, ilustrações, vídeos, SVGs vetoriais e elementos canvas jamais têm suas cores invertidas. Você vê as fotos exatamente como foram tiradas e os vídeos com suas cores autênticas.</p>
+          <span class="feature-badge-mini">&lt;img&gt; &lt;video&gt; &lt;canvas&gt;</span>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z"/></svg>
+          </div>
+          <h3 class="feature-title">Contraste Dinâmico WCAG</h3>
+          <p class="feature-text">Cálculo matemático de luminância relativa em tempo real. Garante que textos pequenos alcancem a proporção mínima de 4.5:1 exigida pelas normas internacionais de ergonomia e acessibilidade.</p>
+          <span class="feature-badge-mini">WCAG 2.1 AA/AAA</span>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 class="feature-title">Shadow DOM &amp; Web Components</h3>
+          <p class="feature-text">Patch não-intrusivo em <code>Element.prototype.attachShadow</code> no contexto do mundo principal. Permite que o motor descubra e estilize árvores de Shadow DOM mesmo criadas tardiamente por frameworks modernos.</p>
+          <span class="feature-badge-mini">attachShadow patch</span>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          </div>
+          <h3 class="feature-title">Controle Fino em Tempo Real</h3>
+          <p class="feature-text">Ajuste contraste (70%–130%), brilho (60%–110%) e calor de cor através do filtro sépia (0%–40%) para relaxamento dos olhos antes de dormir, além de desfoque suave de carregamento.</p>
+          <span class="feature-badge-mini">chrome.storage sync</span>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <h3 class="feature-title">Blacklist &amp; Whitelist por Domínio</h3>
+          <p class="feature-text">Sites como YouTube ou ferramentas que já possuem modo escuro nativo perfeito podem ser excluídos com 1 clique direto no popup, com pesquisa instantânea e suporte a subdomínios.</p>
+          <span class="feature-badge-mini">1-Click Exclusion</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Popup & Architecture Section -->
+  <section class="showcase-interactive-section" id="arquitetura">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interface &amp; Bastidores</span>
+        <h2 class="section-title">Controle intuitivo, arquitetura de alta performance</h2>
+        <p class="section-desc">Experimente a interface real da extensão à esquerda e confira a estrutura de código Manifest V3 à direita.</p>
+      </div>
+
+      <div class="dual-showcase-grid">
+        <!-- Interactive Popup Mockup -->
+        <div class="popup-mockup-wrapper">
+          <div class="popup-container">
+            <div class="popup-header">
+              <div class="popup-title">
+                <span>🌙</span> Smart Dark Mode
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="mock-toggle-enabled" checked>
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+
+            <div class="popup-site-bar">
+              <div class="popup-site-row">
+                <span style="color: #94a3b8;">Site atual:</span>
+                <strong id="mock-site-hostname" style="color: #60a5fa; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">tech-portal.dev</strong>
+              </div>
+              <button class="popup-btn-site" id="mock-btn-toggle-site">
+                <span id="mock-btn-site-icon">🚫</span>
+                <span id="mock-btn-site-text">Não aplicar neste site</span>
+              </button>
+            </div>
+
+            <details class="popup-accordion" open>
+              <summary>
+                <span>Ajustes manuais</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+              </summary>
+              <div class="popup-accordion-body">
+                <div class="popup-slider-row">
+                  <div class="popup-slider-header">
+                    <span>Contraste</span>
+                    <span id="mock-val-contrast">100%</span>
+                  </div>
+                  <input type="range" id="mock-pop-contrast" min="70" max="130" value="100">
+                </div>
+
+                <div class="popup-slider-row">
+                  <div class="popup-slider-header">
+                    <span>Brilho</span>
+                    <span id="mock-val-brightness">100%</span>
+                  </div>
+                  <input type="range" id="mock-pop-brightness" min="60" max="110" value="100">
+                </div>
+
+                <div class="popup-slider-row">
+                  <div class="popup-slider-header">
+                    <span>Tom Séphia</span>
+                    <span id="mock-val-sepia">0%</span>
+                  </div>
+                  <input type="range" id="mock-pop-sepia" min="0" max="40" value="0">
+                </div>
+
+                <button class="popup-btn-site" id="mock-btn-reset" style="margin-top: 6px; font-size: 11px;">Restaurar Padrão</button>
+              </div>
+            </details>
+
+            <details class="popup-accordion">
+              <summary>
+                <span>🚫 Sites ignorados</span>
+                <span style="font-size: 10px; background: #23262e; padding: 1px 6px; border-radius: 8px;">1</span>
+              </summary>
+              <div class="popup-accordion-body">
+                <div style="font-size: 11px; padding: 6px 8px; background: #23262e; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                  <span>youtube.com</span>
+                  <span style="color: #ef4444; cursor: pointer;">✕</span>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Technical Architecture Overview -->
+        <div class="arch-content">
+          <div class="arch-card">
+            <div class="arch-header">
+              <span class="arch-tag">Manifest V3</span>
+              <h3 style="font-size: 1.15rem; font-weight: 700;">Pilares do Projeto</h3>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+              O projeto foi desenvolvido de ponta a ponta sem frameworks externos pesados ou dependências de runtime. O resultado é velocidade extrema, zero consumo ocioso de memória RAM e total isolamento de segurança:
+            </p>
+
+            <div class="arch-code-block">
+<span class="token-comment">// 1. background.js (Service Worker)</span>
+<span class="token-keyword">await</span> chrome.scripting.registerContentScripts([{
+  id: <span class="token-string">'sdm-base-css'</span>,
+  css: [<span class="token-string">'dark-theme.css'</span>],
+  runAt: <span class="token-string">'document_start'</span>,
+  matches: [<span class="token-string">'&lt;all_urls&gt;'</span>]
+}]);
+
+<span class="token-comment">// 2. main-world.js (Shadow DOM Hook)</span>
+Element.prototype.attachShadow = <span class="token-keyword">function</span>(init) {
+  <span class="token-keyword">const</span> root = original.call(<span class="token-keyword">this</span>, init);
+  <span class="token-keyword">this</span>.setAttribute(<span class="token-string">'data-sdm-host'</span>, <span class="token-string">''</span>);
+  <span class="token-keyword">return</span> root;
+};
+            </div>
+          </div>
+
+          <div class="arch-card">
+            <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 8px;">Estrutura do Repositório</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary);">
+              Organizado de maneira limpa para facilitar inspeção, auditoria de código e contribuições via GitHub:
+            </p>
+            <div class="arch-code-block" style="font-size: 0.75rem;">
+darksite/
+├── manifest.json       <span class="token-comment"># Manifesto V3 de permissões e metadados</span>
+├── background.js       <span class="token-comment"># Service worker de injeção em document_start</span>
+├── content.js          <span class="token-comment"># Motor adaptativo de luminância WCAG</span>
+├── main-world.js       <span class="token-comment"># Hook global no proto attachShadow</span>
+├── dark-theme.css      <span class="token-comment"># Folha de estilo base pré-pintura</span>
+├── popup.html &amp; .js    <span class="token-comment"># Interface gráfica e sincronização local</span>
+├── icons/              <span class="token-comment"># Ícones nos tamanhos 16, 32, 48 e 128px</span>
+└── docs/               <span class="token-comment"># Website oficial (compatível com GitHub Pages)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Installation Steps -->
+  <section class="install-section" id="instalacao">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Instalação Rápida</span>
+        <h2 class="section-title">Como rodar no seu navegador em 60 segundos</h2>
+        <p class="section-desc">Sem necessidade de compilação, sem npm install. Basta clonar e carregar no Google Chrome.</p>
+      </div>
+
+      <div class="install-steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Clonar o Repositório</h3>
+          <p class="step-desc">Baixe ou clone os arquivos do projeto para o seu computador através do Git.</p>
+          <div class="code-box-action">
+            <span id="cmd-clone">git clone https://github.com/alvesdiego18/darksite.git</span>
+            <button class="btn-copy-code" data-copy-target="cmd-clone" title="Copiar comando">Copiar</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Abrir Extensões no Chrome</h3>
+          <p class="step-desc">No Google Chrome, acesse o gerenciador de extensões e ative a opção <strong>Modo do desenvolvedor</strong> no canto superior direito.</p>
+          <div class="code-box-action">
+            <span id="cmd-chrome-url">chrome://extensions/</span>
+            <button class="btn-copy-code" data-copy-target="cmd-chrome-url" title="Copiar endereço">Copiar</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Carregar sem Compactação</h3>
+          <p class="step-desc">Clique no botão <strong>Carregar sem compactação</strong> (<em>Load unpacked</em>) e selecione a pasta raiz do projeto clonado.</p>
+          <div class="code-box-action">
+            <span style="color: #34d399;">✓ Pronto! Fixe o ícone na barra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Perguntas Frequentes</span>
+        <h2 class="section-title">Dúvidas Comuns</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>A extensão envia meus dados de navegação para algum servidor?</span>
+            <svg class="faq-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-answer">
+            <strong>Não!</strong> O DarkSite é 100% privado e opera totalmente offline dentro do seu próprio navegador. Suas preferências de brilho, contraste e sites ignorados são armazenadas estritamente no seu computador através da API <code>chrome.storage.local</code>. Não há nenhum serviço de telemetria ou rastreamento.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Como o DarkSite evita o "flash de luz branca" ao abrir novas abas?</span>
+            <svg class="faq-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-answer">
+            Extensões convencionais esperam a página carregar (<code>document_idle</code>) para aplicar estilos, o que resulta na tela branca ofuscante. O DarkSite utiliza a API <code>chrome.scripting.registerContentScripts</code> para registrar a folha de estilo escura antes do HTML ser interpretado (<code>document_start</code>), garantindo que a base escura esteja ativa na pintura zero.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Por que imagens e vídeos não ficam invertidos como em outras extensões?</span>
+            <svg class="faq-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-answer">
+            Em vez de aplicar um filtro de CSS <code>filter: invert(1)</code> indiscriminado na tag <code>&lt;html&gt;</code>, o motor do DarkSite analisa árvore por árvore. Tags como <code>&lt;img&gt;</code>, <code>&lt;video&gt;</code>, <code>&lt;picture&gt;</code>, <code>&lt;canvas&gt;</code> e <code>&lt;svg&gt;</code> são preservadas intocadas.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span>Posso desativar a extensão apenas em um site específico?</span>
+            <svg class="faq-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="faq-answer">
+            Sim! Basta abrir o popup da extensão e clicar no botão "Não aplicar neste site". O domínio é adicionado instantaneamente à sua lista de exclusão (Blacklist), e você também pode pesquisar e gerenciar todos os sites ignorados no painel de configurações.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <img src="assets/icon.svg" alt="Ícone DarkSite" class="brand-icon" style="width: 28px; height: 28px;">
+            <span>Smart Dark Mode &amp; Reader</span>
+          </div>
+          <p class="footer-desc">
+            Motor de alto contraste e adaptação visual inteligente para Google Chrome. Desenvolvido para noites produtivas e olhos descansados.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#demo" class="footer-link">Demonstração</a>
+          <a href="#recursos" class="footer-link">Recursos</a>
+          <a href="#instalacao" class="footer-link">Instalação</a>
+          <a href="https://github.com/alvesdiego18/darksite" target="_blank" rel="noopener noreferrer" class="footer-link">Código no GitHub</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Diego Alves. Licenciado sob a Licença MIT.</span>
+        <span>Código Aberto • Sem fins lucrativos • Zero Rastreadores</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

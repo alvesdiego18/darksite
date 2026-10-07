@@ -1,0 +1,55 @@
+/*
+ * Smart Dark Mode — base stylesheet.
+ * Injected at document_start by the service worker (registerContentScripts), so the
+ * dark base is present on the very first paint. Every rule is gated on the absence of
+ * html[data-sdm-off]; content.js only flips that attribute to turn the theme off.
+ * Per-color rules are generated at runtime by content.js.
+ */
+
+:root:not([data-sdm-off]) {
+  --sdm-on: 1;
+  color-scheme: dark !important;
+  background-color: #121316 !important;
+  color: #e3e5e8 !important;
+}
+
+:root:not([data-sdm-off]) body {
+  background-color: #121316 !important;
+  color: #e3e5e8 !important;
+}
+
+/* Only filter the page when the user moved the sliders away from neutral (filter on html is expensive) */
+:root:not([data-sdm-off])[data-sdm-filter] {
+  filter: brightness(var(--sdm-brightness, 100%)) contrast(var(--sdm-contrast, 100%)) sepia(var(--sdm-sepia, 0%)) !important;
+}
+
+/* Blur while the first adaptation pass runs */
+:root:not([data-sdm-off])[data-sdm-blur] body {
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+:root:not([data-sdm-off])[data-sdm-blur="on"] body {
+  filter: blur(8px) !important;
+  pointer-events: none !important;
+}
+
+/* Form fields */
+:root:not([data-sdm-off]) input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+:root:not([data-sdm-off]) textarea,
+:root:not([data-sdm-off]) select {
+  background-color: #1f2229 !important;
+  color: #f1f3f5 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+:root:not([data-sdm-off]) hr {
+  border: none !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: transparent !important;
+}
+
+/* Placeholders keep the page's dark gray otherwise, unreadable on dark fields */
+:root:not([data-sdm-off]) input::placeholder,
+:root:not([data-sdm-off]) textarea::placeholder {
+  color: rgba(241, 243, 245, 0.5) !important;
+  opacity: 1 !important;
+}
