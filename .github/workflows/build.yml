@@ -1,24 +1,16 @@
-name: Build & Package Extension
+name: Deploy & Release Extension
 
 on:
   push:
-    branches:
-      - main
-      - master
     tags:
       - 'v*'
-  pull_request:
-    branches:
-      - main
-      - master
-  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
-    name: Build Extension
+  deploy:
+    name: Build & Deploy Extension
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +42,6 @@ jobs:
           retention-days: 30
 
       - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
           files: |

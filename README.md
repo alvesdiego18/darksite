@@ -161,13 +161,14 @@ dist/
 
 ---
 
-## 🔄 Integração Contínua (GitHub Actions)
+## 🔄 Integração Contínua & Deploy (GitHub Actions)
 
 O repositório possui uma pipeline automatizada de CI/CD configurada em [`.github/workflows/build.yml`](file:///Volumes/Projetos/Diego/darksite/.github/workflows/build.yml):
 
-- **Build Automático:** Disparado em todo `push` ou `pull_request` nas branches `main` e `master`, além de acionamento manual via botão *Run workflow* (`workflow_dispatch`).
-- **Geração de Artefatos:** A cada execução bem-sucedida, o workflow empacota a extensão e disponibiliza o artefato `smart-dark-mode-extension` para download direto na aba **Actions** do GitHub.
-- **Publicação Automática de Releases:** Ao criar e enviar uma tag de versão (ex: `git tag v1.2.1 && git push origin v1.2.1`), o GitHub Actions cria automaticamente uma nova **GitHub Release** com as notas de lançamento e os arquivos `.zip` e checksums anexados para download imediato.
+- **Disparo Exclusivo por Tags (`v*`):** O workflow e o deploy só são iniciados quando uma nova tag iniciando com `v` é criada e enviada (ex: `git tag v1.2.1 && git push origin v1.2.1`). Commits normais e PRs não disparam o processo.
+- **Build & Testes Automáticos:** Ao receber a tag, o runner do GitHub Actions valida a sintaxe do manifesto, checa a integridade dos arquivos e empacota a extensão via [`build.sh`](file:///Volumes/Projetos/Diego/darksite/build.sh).
+- **Publicação Automática de Release:** O GitHub Actions gera automaticamente uma **GitHub Release** correspondente à versão, publicando as notas da versão e anexando o arquivo `.zip` e os checksums SHA-256 para download imediato.
+- **Artefatos de Build:** O pacote descompactado e o ZIP ficam arquivados na aba **Actions** do repositório por 30 dias.
 
 ---
 
