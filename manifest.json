@@ -3,6 +3,7 @@
   "name": "Smart Dark Mode & Reader",
   "version": "1.2.1",
   "description": "Smart dark mode engine that preserves images, videos, and icons while ensuring high text contrast and legibility.",
+  "homepage_url": "https://github.com/alvesdiego18/darksite",
   "icons": {
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
