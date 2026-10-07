@@ -13,6 +13,7 @@
   </p>
 
   <p align="center">
+    <a href="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml"><img src="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml/badge.svg" alt="Build & Package Extension" /></a>
     <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="MIT License" /></a>
     <img src="https://img.shields.io/badge/Versão-1.2.1-8b5cf6?style=for-the-badge" alt="Version 1.2.1" />
@@ -22,6 +23,8 @@
 
   <p align="center">
     <a href="#-instalação-no-google-chrome">Instalação Rápida</a> •
+    <a href="#-build--empacotamento-automatizado">Build & Pacote</a> •
+    <a href="#-integração-contínua-github-actions">GitHub Actions</a> •
     <a href="#-recursos-principais">Recursos</a> •
     <a href="#-arquitetura--como-funciona">Arquitetura Técnica</a> •
     <a href="docs/index.html">Site Oficial & Demonstração</a> •
@@ -99,11 +102,72 @@ Como a extensão segue o padrão moderno **Manifest V3** e código limpo Vanilla
 
 4. **Carregue a extensão:**
    - Clique no botão **Carregar sem compactação** (*Load unpacked*) no canto superior esquerdo.
-   - Selecione a pasta raiz deste repositório (`darksite`).
+   - Selecione a pasta raiz deste repositório (`darksite`) ou a pasta gerada [`dist/unpacked/`](#-build--empacotamento-automatizado).
 
 5. **Pronto para uso:**
    - A extensão será carregada imediatamente!
    - Clique no ícone de quebra-cabeça (Extensões) na barra de ferramentas do Chrome e fixe o **Smart Dark Mode** para acesso rápido.
+
+> 💡 **Dica:** Você também pode baixar o arquivo ZIP da extensão já buildado diretamente na aba [**Actions**](https://github.com/alvesdiego18/darksite/actions) (artefatos gerados a cada commit) ou na seção de **Releases** do repositório!
+
+---
+
+## 📦 Build & Empacotamento Automatizado
+
+O projeto inclui um script de automação [`build.sh`](file:///Volumes/Projetos/Diego/darksite/build.sh) que valida os arquivos da extensão, cria a distribuição pronta para produção e compacta o arquivo `.zip` para envio à Chrome Web Store ou distribuição externa.
+
+### O que o script de build faz:
+1. **Validação Estrita:** Valida a sintaxe JSON do `manifest.json` e confere a integridade de todos os arquivos e ícones obrigatórios.
+2. **Extração de Versão:** Detecta dinamicamente a versão atual definida no manifesto.
+3. **Isolamento de Produção:** Limpa artefatos antigos e copia apenas os arquivos estritamente necessários para `dist/unpacked/`, removendo arquivos ocultos do sistema (`.DS_Store`, `Thumbs.db`).
+4. **Compactação Otimizada:** Gera o pacote ZIP `dist/smart-dark-mode-v{VERSAO}.zip` (e link `dist/smart-dark-mode.zip`) sem arquivos desnecessários.
+5. **Checksum de Integridade:** Gera automaticamente a soma de verificação SHA-256 (`dist/checksums.txt` e `dist/*.sha256`).
+
+### Como executar localmente:
+
+```bash
+# 1. Dê permissão de execução (se necessário):
+chmod +x build.sh
+
+# 2. Execute o build:
+./build.sh
+```
+
+#### Opções do script:
+```bash
+./build.sh --help       # Exibe ajuda com todas as opções disponíveis
+./build.sh --clean      # Limpa o diretório dist/
+./build.sh --no-zip     # Prepara apenas a pasta dist/unpacked/ sem gerar o ZIP
+```
+
+#### Estrutura gerada na pasta `dist/`:
+```
+dist/
+├── unpacked/                     # Extensão descompactada pronta para o Chrome
+│   ├── manifest.json
+│   ├── background.js
+│   ├── content.js
+│   ├── main-world.js
+│   ├── dark-theme.css
+│   ├── popup.html
+│   ├── popup.js
+│   ├── LICENSE
+│   └── icons/
+├── smart-dark-mode-v1.2.1.zip     # Pacote pronto para Chrome Web Store / Release
+├── smart-dark-mode.zip            # Cópia para referências diretas
+├── smart-dark-mode-v1.2.1.zip.sha256
+└── checksums.txt                  # Verificação de integridade SHA-256
+```
+
+---
+
+## 🔄 Integração Contínua (GitHub Actions)
+
+O repositório possui uma pipeline automatizada de CI/CD configurada em [`.github/workflows/build.yml`](file:///Volumes/Projetos/Diego/darksite/.github/workflows/build.yml):
+
+- **Build Automático:** Disparado em todo `push` ou `pull_request` nas branches `main` e `master`, além de acionamento manual via botão *Run workflow* (`workflow_dispatch`).
+- **Geração de Artefatos:** A cada execução bem-sucedida, o workflow empacota a extensão e disponibiliza o artefato `smart-dark-mode-extension` para download direto na aba **Actions** do GitHub.
+- **Publicação Automática de Releases:** Ao criar e enviar uma tag de versão (ex: `git tag v1.2.1 && git push origin v1.2.1`), o GitHub Actions cria automaticamente uma nova **GitHub Release** com as notas de lançamento e os arquivos `.zip` e checksums anexados para download imediato.
 
 ---
 
@@ -189,10 +253,14 @@ A extensão foi projetada seguindo as boas práticas recomendadas pela documenta
 
 ```
 darksite/
+├── .github/
+│   └── workflows/
+│       └── build.yml       # Pipeline CI/CD do GitHub Actions (Build, Artefatos e Release)
 ├── .gitignore              # Regras de exclusão Git (macOS, IDEs, caches)
 ├── LICENSE                 # Licença de código aberto MIT
 ├── README.md               # Documentação principal do repositório
 ├── CONTRIBUTING.md         # Guia e normas para contribuições da comunidade
+├── build.sh                # Script de validação, empacotamento e geração de ZIP
 ├── manifest.json           # Manifesto oficial da extensão Manifest V3
 ├── background.js           # Service worker de ciclo de vida e injeção rápida
 ├── content.js              # Motor adaptativo de luminância relativa WCAG

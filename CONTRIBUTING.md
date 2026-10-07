@@ -55,11 +55,12 @@ Ao abrir uma issue, informe:
 ## 🚀 Enviando seu Pull Request
 
 1. Garanta que seu código foi testado em múltiplos websites (sites claros, sites escuros nativos e SPAs dinâmicas).
-2. Faça commit com mensagens claras seguindo o padrão Conventional Commits (ex: `feat:`, `fix:`, `docs:`, `perf:`).
-3. Envie o push para o seu fork:
+2. Execute `./build.sh` para validar a sintaxe do manifesto e a integridade dos arquivos gerados.
+3. Faça commit com mensagens claras seguindo o padrão Conventional Commits (ex: `feat:`, `fix:`, `docs:`, `perf:`).
+4. Envie o push para o seu fork:
    ```bash
    git push origin feature/minha-melhoria
    ```
-4. Abra um Pull Request com uma descrição detalhada das mudanças.
+5. Abra um Pull Request com uma descrição detalhada das mudanças.
 
 Agradecemos imensamente por tornar a navegação web noturna mais agradável para todos! 🌙
