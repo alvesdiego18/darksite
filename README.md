@@ -14,6 +14,7 @@
 
   <p align="center">
     <a href="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml"><img src="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml/badge.svg" alt="Build & Package Extension" /></a>
+    <a href="https://darksite-ten.vercel.app/"><img src="https://img.shields.io/badge/Website-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Website on Vercel" /></a>
     <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="MIT License" /></a>
     <img src="https://img.shields.io/badge/Versão-1.2.1-8b5cf6?style=for-the-badge" alt="Version 1.2.1" />
@@ -22,12 +23,12 @@
   </p>
 
   <p align="center">
+    <a href="https://darksite-ten.vercel.app/"><strong>🌐 Site Oficial & Demonstração ↗</strong></a> •
     <a href="#-instalação-no-google-chrome">Instalação Rápida</a> •
     <a href="#-build--empacotamento-automatizado">Build & Pacote</a> •
-    <a href="#-integração-contínua-github-actions">GitHub Actions</a> •
+    <a href="#-integração-contínua--deploy-github-actions">GitHub Actions</a> •
     <a href="#-recursos-principais">Recursos</a> •
     <a href="#-arquitetura--como-funciona">Arquitetura Técnica</a> •
-    <a href="docs/index.html">Site Oficial & Demonstração</a> •
     <a href="#-contribuindo">Contribuir</a>
   </p>
 
@@ -66,11 +67,11 @@ O **Smart Dark Mode & Reader** resolve isso na raiz:
 
 ## 🌐 Site Oficial & Demonstração Interativa
 
-O projeto acompanha um **website moderno e minimalista** com comparador interativo antes/depois, simulador de popup e documentação técnica.
+O projeto acompanha um **website moderno e responsivo** com comparador interativo antes/depois, simulador do popup e especificações técnicas.
 
-- **Localização:** Pasta [`docs/`](file:///Volumes/Projetos/Diego/darksite/docs)
-- **Compatibilidade:** Pronto para publicação direta via **GitHub Pages** (configurando a pasta `/docs` na aba *Pages* do repositório).
-- **Como testar localmente:**
+- 🚀 **Acesse online:** [**https://darksite-ten.vercel.app/**](https://darksite-ten.vercel.app/)
+- 📂 **Código-fonte do site:** Pasta [`docs/`](file:///Volumes/Projetos/Diego/darksite/docs) (compatível com Vercel e GitHub Pages).
+- 💻 **Como testar localmente:**
   ```bash
   # Você pode abrir diretamente no navegador:
   open docs/index.html
