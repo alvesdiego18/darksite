@@ -13,8 +13,6 @@
   </p>
 
   <p align="center">
-    <a href="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml"><img src="https://github.com/alvesdiego18/darksite/actions/workflows/build.yml/badge.svg" alt="Build & Package Extension" /></a>
-    <a href="https://darksite-ten.vercel.app/"><img src="https://img.shields.io/badge/Website-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white" alt="Website on Vercel" /></a>
     <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="MIT License" /></a>
     <img src="https://img.shields.io/badge/Versão-1.2.1-8b5cf6?style=for-the-badge" alt="Version 1.2.1" />
@@ -23,12 +21,10 @@
   </p>
 
   <p align="center">
-    <a href="https://darksite-ten.vercel.app/"><strong>🌐 Site Oficial & Demonstração ↗</strong></a> •
     <a href="#-instalação-no-google-chrome">Instalação Rápida</a> •
-    <a href="#-build--empacotamento-automatizado">Build & Pacote</a> •
-    <a href="#-integração-contínua--deploy-github-actions">GitHub Actions</a> •
     <a href="#-recursos-principais">Recursos</a> •
-    <a href="#-arquitetura--como-funciona">Arquitetura Técnica</a> •
+    <a href="#-como-usar">Como Usar</a> •
+    <a href="#-build--empacotamento-automatizado">Build & Pacote</a> •
     <a href="#-contribuindo">Contribuir</a>
   </p>
 
@@ -65,25 +61,6 @@ O **Smart Dark Mode & Reader** resolve isso na raiz:
 
 ---
 
-## 🌐 Site Oficial & Demonstração Interativa
-
-O projeto acompanha um **website moderno e responsivo** com comparador interativo antes/depois, simulador do popup e especificações técnicas.
-
-- 🚀 **Acesse online:** [**https://darksite-ten.vercel.app/**](https://darksite-ten.vercel.app/)
-- 📂 **Código-fonte do site:** Pasta [`docs/`](file:///Volumes/Projetos/Diego/darksite/docs) (compatível com Vercel e GitHub Pages).
-- 💻 **Como testar localmente:**
-  ```bash
-  # Você pode abrir diretamente no navegador:
-  open docs/index.html
-  
-  # Ou servir localmente via Python / Node:
-  npx serve docs
-  # ou
-  python3 -m http.server 8080 --directory docs
-  ```
-
----
-
 ## 🚀 Instalação no Google Chrome
 
 Como a extensão segue o padrão moderno **Manifest V3** e código limpo Vanilla JS, ela pode ser instalada diretamente no Chrome sem necessidade de etapas de compilação:
@@ -103,13 +80,30 @@ Como a extensão segue o padrão moderno **Manifest V3** e código limpo Vanilla
 
 4. **Carregue a extensão:**
    - Clique no botão **Carregar sem compactação** (*Load unpacked*) no canto superior esquerdo.
-   - Selecione a pasta raiz deste repositório (`darksite`) ou a pasta gerada [`dist/unpacked/`](#-build--empacotamento-automatizado).
+   - Selecione a pasta raiz deste repositório (`darksite`) ou a pasta gerada `dist/unpacked/`.
 
 5. **Pronto para uso:**
    - A extensão será carregada imediatamente!
    - Clique no ícone de quebra-cabeça (Extensões) na barra de ferramentas do Chrome e fixe o **Smart Dark Mode** para acesso rápido.
 
-> 💡 **Dica:** Você também pode baixar o arquivo ZIP da extensão já buildado diretamente na aba [**Actions**](https://github.com/alvesdiego18/darksite/actions) (artefatos gerados a cada commit) ou na seção de **Releases** do repositório!
+---
+
+## 💻 Como Usar
+
+### 1. Ativação Global
+Abra o popup da extensão e use o botão liga/desliga principal no topo para ativar ou desativar o tema escuro em todas as abas.
+
+### 2. Controle por Domínio (Whitelist / Blacklist)
+- Se você estiver em um site que já possui um modo escuro excelente (como YouTube ou Spotify), clique no botão **"🚫 Não aplicar neste site"**.
+- Para gerenciar sites adicionados à lista, expanda a seção **"🚫 Sites ignorados"** no popup. Você pode adicionar domínios manualmente ou pesquisar entre os já cadastrados.
+
+### 3. Ajustes Manuais de Leitura
+Expanda a aba **"Ajustes manuais"** no popup para calibrar:
+- **Contraste:** Aumente para realçar textos ou diminua para uma visualização mais suave.
+- **Brilho:** Reduza para proteger a visão em quartos escuros.
+- **Tom Séphia:** Aplique um filtro quente para reduzir a luz azul no período noturno.
+- **Desfoque no carregamento:** Suaviza a transição visual enquanto o motor processa o conteúdo dinâmico.
+- **Restaurar Padrão:** Volta todas as configurações para os valores ideais de fábrica com 1 clique.
 
 ---
 
@@ -159,95 +153,6 @@ dist/
 ├── smart-dark-mode-v1.2.1.zip.sha256
 └── checksums.txt                  # Verificação de integridade SHA-256
 ```
-
----
-
-## 🔄 Integração Contínua & Deploy (GitHub Actions)
-
-O repositório possui uma pipeline automatizada de CI/CD configurada em [`.github/workflows/build.yml`](file:///Volumes/Projetos/Diego/darksite/.github/workflows/build.yml):
-
-- **Disparo Exclusivo por Tags (`v*`):** O workflow e o deploy só são iniciados quando uma nova tag iniciando com `v` é criada e enviada (ex: `git tag v1.2.1 && git push origin v1.2.1`). Commits normais e PRs não disparam o processo.
-- **Build & Testes Automáticos:** Ao receber a tag, o runner do GitHub Actions valida a sintaxe do manifesto, checa a integridade dos arquivos e empacota a extensão via [`build.sh`](file:///Volumes/Projetos/Diego/darksite/build.sh).
-- **Publicação Automática de Release:** O GitHub Actions gera automaticamente uma **GitHub Release** correspondente à versão, publicando as notas da versão e anexando o arquivo `.zip` e os checksums SHA-256 para download imediato.
-- **Artefatos de Build:** O pacote descompactado e o ZIP ficam arquivados na aba **Actions** do repositório por 30 dias.
-
----
-
-## 💻 Como Usar
-
-### 1. Ativação Global
-Abra o popup da extensão e use o botão liga/desliga principal no topo para ativar ou desativar o tema escuro em todas as abas.
-
-### 2. Controle por Domínio (Whitelist / Blacklist)
-- Se você estiver em um site que já possui um modo escuro excelente (como YouTube ou Spotify), clique no botão **"🚫 Não aplicar neste site"**.
-- Para gerenciar sites adicionados à lista, expanda a seção **"🚫 Sites ignorados"** no popup. Você pode adicionar domínios manualmente ou pesquisar entre os já cadastrados.
-
-### 3. Ajustes Manuais de Leitura
-Expanda a aba **"Ajustes manuais"** no popup para calibrar:
-- **Contraste:** Aumente para realçar textos ou diminua para uma visualização mais suave.
-- **Brilho:** Reduza para proteger a visão em quartos escuros.
-- **Tom Séphia:** Aplique um filtro quente para reduzir a luz azul no período noturno.
-- **Desfoque no carregamento:** Suaviza a transição visual enquanto o motor processa o conteúdo dinâmico.
-- **Restaurar Padrão:** Volta todas as configurações para os valores ideais de fábrica com 1 clique.
-
----
-
-## 🏗️ Arquitetura & Como Funciona
-
-A extensão foi projetada seguindo as boas práticas recomendadas pela documentação oficial do Chrome Extensions Manifest V3:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                       GOOGLE CHROME                         │
-│                                                             │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                 background.js                       │   │
-│   │               (Service Worker)                      │   │
-│   │  • Sincroniza configurações e lista de exclusão     │   │
-│   │  • Registra dark-theme.css em 'document_start'      │   │
-│   └───────────────────────┬─────────────────────────────┘   │
-│                           │ registra CSS e escuta storage   │
-│                           ▼                                 │
-│   ┌─────────────────────────────────────────────────────┐   │
-│   │                 Aba do Navegador                    │   │
-│   │                                                     │   │
-│   │  ┌───────────────────┐    ┌──────────────────────┐  │   │
-│   │  │   main-world.js   │    │      content.js      │  │   │
-│   │  │   (Contexto MAIN) │    │  (Contexto Isolado)  │  │   │
-│   │  │ • Hook em         │    │ • Motor WCAG         │  │   │
-│   │  │   attachShadow    │───▶│ • MutationObserver   │  │   │
-│   │  │ • Marca hosts     │    │ • Adaptação de cores │  │   │
-│   │  └───────────────────┘    └──────────────────────┘  │   │
-│   └─────────────────────────────────────────────────────┘   │
-│                           ▲                                 │
-│                           │ lê e escreve configurações      │
-│   ┌───────────────────────┴─────────────────────────────┐   │
-│   │                 popup.html & popup.js               │   │
-│   │                  (Interface Gráfica)                │   │
-│   └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### Detalhamento dos Componentes:
-
-1. **[`background.js`](file:///Volumes/Projetos/Diego/darksite/background.js) (Service Worker):**
-   - Utiliza a API `chrome.scripting.registerContentScripts` para registrar o arquivo [`dark-theme.css`](file:///Volumes/Projetos/Diego/darksite/dark-theme.css) apenas em páginas elegíveis.
-   - Isso garante que a cor de fundo seja `#121316` no exato momento da primeira renderização da aba, sem depender do download completo do HTML.
-
-2. **[`main-world.js`](file:///Volumes/Projetos/Diego/darksite/main-world.js) (Script do Mundo Principal):**
-   - Executa no contexto da própria página (`world: "MAIN"`).
-   - Sobrescreve `Element.prototype.attachShadow` para marcar automaticamente cada elemento que cria uma Shadow Root com o atributo `data-sdm-host`.
-   - Permite que o script isolado escute e estilize Web Components criados tardiamente por bibliotecas modernas.
-
-3. **[`content.js`](file:///Volumes/Projetos/Diego/darksite/content.js) (Motor de Contraste Adaptativo):**
-   - Calcula a luminância relativa de cada elemento usando a fórmula padrão WCAG:
-     $$Y = 0.2126 \times R + 0.7152 \times G + 0.0722 \times B$$
-   - Aplica adaptação seletiva em fundos claros, bordas e sombras, preservando a matiz e a intenção de design original.
-   - Possui observador de mutações (`MutationObserver`) para acompanhar carregamentos infinitos, modais e transições em SPAs.
-
-4. **[`popup.html`](file:///Volumes/Projetos/Diego/darksite/popup.html) e [`popup.js`](file:///Volumes/Projetos/Diego/darksite/popup.js) (Painel de Controle):**
-   - Interface com design dark elegante.
-   - Sincronização em tempo real via `chrome.storage.local`.
 
 ---
 
